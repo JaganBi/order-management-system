@@ -1,11 +1,9 @@
 package com.example.OrderManagementSystem.Controller;
 
+import com.example.OrderManagementSystem.DTO.ProductFilterRequest;
 import com.example.OrderManagementSystem.DTO.ProductRequest;
 import com.example.OrderManagementSystem.DTO.ProductResponse;
-import com.example.OrderManagementSystem.Repository.ProductRepository;
 import com.example.OrderManagementSystem.Service.ProductService;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -23,9 +21,13 @@ public class ProductController {
     public ProductResponse addProduct(@RequestBody ProductRequest productRequest) {
         return productService.createProduct(productRequest);
     }
-    @GetMapping
-    public List<ProductResponse> getAllProducts() {
-        return productService.getAllProducts();
+    @GetMapping("/all")
+    public List<ProductResponse> getAll() {
+        return productService.getAll();
+    }
+   @GetMapping
+    public List<ProductResponse> getFilterProducts(@ModelAttribute ProductFilterRequest productFilterRequest){
+    return productService.getAllProductsByCategory(productFilterRequest);
     }
     @GetMapping("/{id}")
     public ProductResponse getProductById(@PathVariable long id) {
