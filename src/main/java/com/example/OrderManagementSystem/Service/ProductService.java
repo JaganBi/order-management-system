@@ -29,7 +29,8 @@ public class ProductService {
         return ProductMapper.toResponse(saved);
     }
     public List<ProductResponse> getAll(){
-        return productRepository.findAll().stream().map(ProductMapper::toResponse).toList();
+        return productRepository.findAll()
+                .stream().map(ProductMapper::toResponse).toList();
     }
     public List<ProductResponse> getAllProductsByCategory(ProductFilterRequest request) {
 
@@ -39,18 +40,13 @@ public class ProductService {
         Sort sort = direction.equalsIgnoreCase("desc")
                 ? Sort.by(sortBy).descending()
                 : Sort.by(sortBy).ascending();
-
         int page = request.getPage();
         int size = request.getSize() <= 0 ? 5 : request.getSize();
-
         Pageable pageable = PageRequest.of(page, size, sort);
-
         Specification<Product> spec = (root, query, cb) -> cb.conjunction();
         if (request.getName() != null && !request.getName().isBlank()) {
             spec = spec.and(ProductSpecification.hasName(request.getName()));
         }
-
-
         if (request.getMinPrice() != null && request.getMaxPrice() != null) {
             spec = spec.and(ProductSpecification.priceBetween(
                     request.getMinPrice(),
@@ -64,9 +60,7 @@ public class ProductService {
                 spec = spec.and(ProductSpecification.priceLessThan(request.getMaxPrice()));
             }
         }
-
         Page<Product> productPage = productRepository.findAll(spec, pageable);
-
         return productPage.getContent()
                 .stream()
                 .map(ProductMapper::toResponse)

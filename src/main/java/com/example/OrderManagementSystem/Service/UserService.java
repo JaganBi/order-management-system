@@ -10,6 +10,7 @@ import com.example.OrderManagementSystem.Mapper.UserMapper;
 import com.example.OrderManagementSystem.Repository.UserRepository;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -37,6 +38,9 @@ public class UserService {
             throw new InvalidCredentialsException("Invalid email or password");
         }
         return UserMapper.toResponse(user);
+    }
+    public List<User> getAllUsers() {
+        return userRepository.findAll();
     }
 
 }
