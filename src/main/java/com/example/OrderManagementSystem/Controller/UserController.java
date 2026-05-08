@@ -1,6 +1,7 @@
 package com.example.OrderManagementSystem.Controller;
 
 import com.example.OrderManagementSystem.DTO.LoginRequest;
+import com.example.OrderManagementSystem.DTO.LoginResponse;
 import com.example.OrderManagementSystem.DTO.SignupRequest;
 import com.example.OrderManagementSystem.DTO.UserResponse;
 import com.example.OrderManagementSystem.Entity.User;
@@ -23,7 +24,7 @@ public class UserController {
         return userService.signup(request);
     }
     @PostMapping("/login")
-    public UserResponse login(@RequestBody LoginRequest request) {
+    public LoginResponse login(@RequestBody LoginRequest request) {
         return userService.login(request);
     }
     @GetMapping
